@@ -7,7 +7,7 @@ Feature: world time Viewer App
         And the title label should be visible and display "The present time in <timezone>"
         And the time label should be visible and display the current time in <timezone>
 
-        System Timezones:
+        Examples:
            | timezone |
            | JST      |
            | GMT      |
@@ -21,7 +21,7 @@ Feature: world time Viewer App
         And the title label should be update and display "The present time in <timezone>"
         And the time label should be update and display the current time in <timezone>
 
-        Available Timezones:
+        Examples:
            | timezone |
            | JST      |
            | GMT      |
