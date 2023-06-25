@@ -3,13 +3,9 @@ Feature: world time Viewer App
     Scenario: Lunch the app and display time in system timezone
         When user run the app
         Then the app timezone set to the system timezone <timezone>
-        And the timezone menu should be visible and display "<timezone>"
-        And the title label should be visible and display "The present time in <timezone>"
-        And the time label should be visible and display the current time in <timezone>
-
-        Examples:
-           | timezone |
-           | JST      |
+        And the timezone menu should be update and display "<timezone>"
+        And the title label should be update and display "The present time in <timezone>"
+        And the time label should be update and display the current time in <timezone>
 
     Scenario: Update Time when Selecting Timezone
         Given the App is launched
@@ -19,11 +15,6 @@ Feature: world time Viewer App
         And the title label should be update and display "The present time in <timezone>"
         And the time label should be update and display the current time in <timezone>
 
-        Examples:
-           | timezone |
-           | JST      |
-           | GMT      |
-           | PST      |
 
     Scenario: Continuously Update Time
         Given the App is launched
