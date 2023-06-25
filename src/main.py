@@ -25,11 +25,13 @@ class WorldTimeViewerApp(QMainWindow):
         self.time_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Create and set the menu
-        self.menu = QComboBox()
-        self.menu.addItem("JST")
-        self.menu.addItem("GMT")
-        self.menu.addItem("PST")
-        self.menu.setCurrentIndex(0)
+        self.menu_combo = QComboBox()
+        self.menu_combo.addItem("JST")
+        self.menu_combo.addItem("GMT")
+        self.menu_combo.addItem("PST")
+        self.menu_combo.setCurrentIndex(0)
+        self.menu_combo.currentIndexChanged.connect(self.handle_menu_combo_change)
+
 
         # Create the colse button
         self.button = QPushButton("Close", self)
@@ -37,7 +39,7 @@ class WorldTimeViewerApp(QMainWindow):
 
         # Add the labels and button to the layout
         layout.addWidget(self.title_label)
-        layout.addWidget(self.menu)
+        layout.addWidget(self.menu_combo)
         layout.addWidget(self.time_label)
         layout.addWidget(self.button)
 
@@ -51,6 +53,9 @@ class WorldTimeViewerApp(QMainWindow):
         self.timer.timeout.connect(self.update_time)
         self.timer.start(1000)
 
+    def handle_menu_combo_change(self, index):
+        self.set_timezone(self.menu_combo.currentText())
+
     def get_system_timezone(self):
         current_datetime = QDateTime.currentDateTime()
         system_timezone = current_datetime.timeZoneAbbreviation()
@@ -58,6 +63,8 @@ class WorldTimeViewerApp(QMainWindow):
 
     def set_timezone(self, timezone):
         self.app_timezone = timezone
+        print(self.app_timezone)
+        self.menu_combo.setCurrentText(timezone)
         self.set_title_label()
         self.update_time()
 
