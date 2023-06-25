@@ -9,7 +9,7 @@ from src.main import WorldTimeViewerApp
 from main_steps import *
 
 @scenario('world_time_viewer.feature', 'Lunch the app and display time in system timezone')
-def test_Lunch_and_display_system_timezone():
+def test_Lunch_and_display_system_timezone(preselected_timezone):
     pass
 
 @scenario('world_time_viewer.feature', 'Update Time when Selecting Timezone')
