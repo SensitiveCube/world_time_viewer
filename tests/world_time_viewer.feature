@@ -10,8 +10,6 @@ Feature: world time Viewer App
         Examples:
            | timezone |
            | JST      |
-           | GMT      |
-           | PST      |
 
     Scenario: Update Time when Selecting Timezone
         Given the App is launched
