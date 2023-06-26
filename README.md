@@ -16,8 +16,7 @@ world_time_viewer/
   |- src/
   |    |- main.py
   |- tests/
-  |    |- main_test.py
-  |    |- main_steps.py
+  |    |- main_steps_test.py
   |    |- world_time_viewer.feature
   |- README.md
   |- requirements.txt
