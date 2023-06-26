@@ -10,7 +10,7 @@ class WorldTimeViewerApp(QMainWindow):
     A GUI application to view and display the current time in different timezones.
 
     Attributes:
-        app_timezone (str): The currently selected timezone.
+        selected_timezone (str): The currently selected timezone.
         preselected_timezone_list (dict): A dictionary containing preselected timezones
             and their corresponding timezone names.
     """
@@ -19,7 +19,7 @@ class WorldTimeViewerApp(QMainWindow):
         super().__init__()
         self.setWindowTitle("World Time Viewer")
 
-        self.app_timezone = ""
+        self.selected_timezone = ""
         self.preselected_timezone_list = {
             "JST": "Asia/Tokyo",
             "GMT": "Europe/London",
@@ -100,19 +100,19 @@ class WorldTimeViewerApp(QMainWindow):
 
     def set_timezone(self, timezone):
         # Set the app timezone and update UI
-        self.app_timezone = timezone
-        print(self.app_timezone)
+        self.selected_timezone = timezone
+        print(self.selected_timezone)
         self.menu_combo.setCurrentText(timezone)
         self.set_title_label()
         self.update_time()
 
     def set_title_label(self):
         # Update the title label with the app timezone
-        self.title_label.setText(f'The present time in {self.app_timezone}')
+        self.title_label.setText(f'The present time in {self.selected_timezone}')
 
     def update_time(self):
         # Update the time label with the current time in the app timezone
-        current_timezone = pytz.timezone(self.preselected_timezone_list[self.app_timezone])
+        current_timezone = pytz.timezone(self.preselected_timezone_list[self.selected_timezone])
         now_timezone = datetime.now(current_timezone)
         current_time_str = now_timezone.strftime("%Y-%m-%d %H:%M:%S")
         self.time_label.setText(current_time_str)
