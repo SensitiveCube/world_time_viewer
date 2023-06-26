@@ -22,10 +22,25 @@ class WorldTimeViewerApp(QMainWindow):
             "CET": "Europe/Paris"
         }
 
+
+        # initial sequence
+        self.create_widgets()
+        self.set_timezone(self.get_system_timezone())
+        self.set_preselected_list()
+        self.set_menu_combo_to_system_timezone()
+        self.set_title_label()
+        self.update_time()
+
+        # Start a timer to update the time every second
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_time)
+        self.timer.start(1000)
+
+    def create_widgets(self):
         # Create a central widget and set the layout
-        central_widget = QWidget(self)
-        self.setCentralWidget(central_widget)
-        layout = QVBoxLayout(central_widget)
+        self.central_widget = QWidget(self)
+        self.setCentralWidget(self.central_widget)
+        layout = QVBoxLayout(self.central_widget)
 
         # Create and set the title label
         self.title_label = QLabel("", self)
@@ -35,7 +50,7 @@ class WorldTimeViewerApp(QMainWindow):
         self.time_label = QLabel("", self)
         self.time_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        # Create and set the menu
+        # Create the menu
         self.menu_combo = QComboBox()
 
         # Create the colse button
@@ -48,17 +63,6 @@ class WorldTimeViewerApp(QMainWindow):
         layout.addWidget(self.time_label)
         layout.addWidget(self.button)
 
-        # initial scecence
-        self.set_timezone(self.get_system_timezone())
-        self.set_preselected_list()
-        self.set_title_label()
-        self.update_time()
-
-        # Start a timer to update the time every second
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.update_time)
-        self.timer.start(1000)
-
     def handle_menu_combo_change(self, index):
         self.set_timezone(self.menu_combo.currentText())
 
@@ -67,6 +71,7 @@ class WorldTimeViewerApp(QMainWindow):
         for timezone in self.preselected_timezone_list.keys():
             self.menu_combo.addItem(timezone)
 
+    def set_menu_combo_to_system_timezone(self):
         # Set the menu to the current system timezone
         current_datetime = QDateTime.currentDateTime()
         system_timezone_key = current_datetime.timeZoneAbbreviation()
