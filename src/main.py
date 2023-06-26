@@ -36,9 +36,8 @@ class WorldTimeViewerApp(QMainWindow):
 
         # Create and set the menu
         self.menu_combo = QComboBox()
-        self.menu_combo.addItem("JST")
-        self.menu_combo.addItem("GMT")
-        self.menu_combo.addItem("PST")
+        for timezone in self.preselected_timezone_list.keys():
+            self.menu_combo.addItem(timezone)
         self.menu_combo.setCurrentIndex(0)
         self.menu_combo.currentIndexChanged.connect(self.handle_menu_combo_change)
 
@@ -82,8 +81,9 @@ class WorldTimeViewerApp(QMainWindow):
         self.title_label.setText(f'The present time in {self.app_timezone}')
 
     def update_time(self):
-        now = datetime.now(pytz.timezone('Asia/Tokyo'))
-        current_time_str = now.strftime("%Y-%m-%d %H:%M:%S")
+        current_timezone = pytz.timezone(self.preselected_timezone_list[self.app_timezone])
+        now_timezone = datetime.now(current_timezone)
+        current_time_str = now_timezone.strftime("%Y-%m-%d %H:%M:%S")
         self.time_label.setText(current_time_str)
 
 if __name__ == "__main__":
