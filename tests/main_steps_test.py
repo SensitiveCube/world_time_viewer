@@ -1,6 +1,6 @@
 import pytest
 from pytest_bdd import given, when, then, scenarios, parsers
-from PySide6.QtCore import Qt, QDateTime
+from PySide6.QtCore import Qt, QDateTime, QTimeZone
 from PySide6.QtTest import QTest
 from PySide6.QtWidgets import QApplication, QWidgetAction
 import pytz
@@ -46,7 +46,7 @@ def system_timezone():
 
 @pytest.fixture()
 def initial_time(window):
-    return window.time_label.text()
+    return QDateTime.fromString(window.time_label.text(), "yyyy-MM-dd HH:mm:ss")
 
 
 @given("the App is launched")
@@ -59,25 +59,25 @@ def user_runs_app(window):
     # The app instance is already created in the fixture
     assert window is not None
 
-@then("the app timezone set to the system timezone")
+@then("the timezone of app set to the system timezone")
 def app_timezone_set_to_system_timezone(window, system_timezone):
     # Code to check if the app timezone is set to the system timezone
     print(f"app:{window.app_timezone}, sys:{system_timezone}, menu:{window.menu_combo.currentText()}")
     assert window.app_timezone == system_timezone
 
-@then('the timezone menu should be update and display system timezone')
+@then('the menu of timezone should be update and display system timezone')
 def timezone_menu_visible_and_display_in_system(window, system_timezone):
     # Code to check if the timezone menu is visible and displays the expected timezoneav
     print(f"app:{window.app_timezone}, sys:{system_timezone}, menu:{window.menu_combo.currentText()}")
     assert window.menu_combo.currentText() == system_timezone
 
-@then('the title label should be update and display "The present time in system timezone"')
+@then('title label should be update and display The present time in system timezone')
 def title_label_visible_and_display_in_system(window):
     # Code to check if the title label is visible and displays the expected text
     window.set_timezone("JST")
     assert window.title_label.text() == f'The present time in JST'
 
-@then('the time label should be update and display the current time in system timezone')
+@then('time label should be update and display the current time in system timezone')
 def time_label_visible_and_display_in_system(window):
     # Code to check if the time label is visible and displays the current time in the expected timezone
     current_detetime = QDateTime.currentDateTime()
@@ -102,30 +102,34 @@ def user_selects_timezone(window, timezone, qtbot):
             # qtbot.mouseClick(menu_item, Qt.LeftButton)
             QTest.mouseClick(menu_item, Qt.LeftButton)
             break
+
     window.menu_combo.setCurrentText(timezone)
+    print(f"c app:{window.app_timezone}, pre:{timezone}")
 
 @then(parsers.parse('the app timezone set to the user-selected timezone {timezone:s}', extra_types=EXTRA_TYPES))
 def app_timezone_set_to_user_selected_timezone(window, timezone):
     # Code to check if the app timezone is set to the user-selected timezone
-    print(f"app:{window.app_timezone}, pre:{timezone}")
+    print(f"s app:{window.app_timezone}, pre:{timezone}")
     # assert window.app_timezone == preselected_timezone
 
-@then(parsers.parse('the timezone menu should be update and display "{timezone:s}"', extra_types=EXTRA_TYPES))
-def timezone_menu_visible_and_display(window, timezone):
+@then(parsers.parse('the timezone menu should be update and display {timezone:s}', extra_types=EXTRA_TYPES))
+def timezone_menu_visible_and_display_in_current(window, timezone):
     # Code to check if the timezone menu is visible and displays the expected timezoneav
-    print(f"app:{window.app_timezone}, pre:{timezone}, menu:{window.menu_combo.currentText()}")
+    print(f"s app:{window.app_timezone}, pre:{timezone}, menu:{window.menu_combo.currentText()}")
     assert window.menu_combo.currentText() == timezone
 
-@then(parsers.parse('the title label should be update and display "The present time in {timezone:s}"', extra_types=EXTRA_TYPES))
+@then(parsers.parse('the title label should be update and display The present time in {timezone:s}', extra_types=EXTRA_TYPES))
 def title_label_visible_and_display(window, timezone):
     # Code to check if the title label is visible and displays the expected text
     assert window.title_label.text() == f'The present time in {timezone}'
 
 @then(parsers.parse('the time label should be update and display the current time in {timezone:s}', extra_types=EXTRA_TYPES))
-def time_label_visible_and_display(window):
+def time_label_visible_and_display(window, timezone):
     # Code to check if the time label is visible and displays the current time in the expected timezone
-    current_detetime = QDateTime.currentDateTime()
-    current_time = current_detetime.toString("yyyy-MM-dd HH:mm:ss")
+    display_timezone = pytz.timezone(window.preselected_timezone_list[timezone])
+    now_timezone = datetime.now(display_timezone)
+    current_time = now_timezone.strftime("%Y-%m-%d %H:%M:%S")
+    print(f"r time:{current_time}, dis:{window.time_label.text()}, pre:{timezone}")
     assert window.time_label.text() == current_time
 
 @when("the time passes")

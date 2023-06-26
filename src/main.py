@@ -10,6 +10,16 @@ class WorldTimeViewerApp(QMainWindow):
         self.setWindowTitle("World Time Viewer")
 
         self.app_timezone = ""
+        self.preselected_timezone_list = {
+            "JST": "Asia/Tokyo",
+            "GMT": "Europe/London",
+            "EST": "America/New_York",
+            "CST": "America/Chicago",
+            "MST": "America/Denver",
+            "PST": "America/Los_Angeles",
+            "IST": "Asia/Kolkata",
+            "CET": "Europe/Paris"
+        }
 
         # Create a central widget and set the layout
         central_widget = QWidget(self)
