@@ -63,22 +63,29 @@ class WorldTimeViewerApp(QMainWindow):
         self.set_timezone(self.menu_combo.currentText())
 
     def set_preselected_list(self):
+        # Add preselected timezones to the menu
         for timezone in self.preselected_timezone_list.keys():
             self.menu_combo.addItem(timezone)
+
+        # Set the menu to the current system timezone
         current_datetime = QDateTime.currentDateTime()
         system_timezone_key = current_datetime.timeZoneAbbreviation()
         self.menu_combo.setCurrentText(system_timezone_key)
         self.menu_combo.currentIndexChanged.connect(self.handle_menu_combo_change)
 
     def get_system_timezone(self):
+        # Get the system timezone as key and name
         current_datetime = QDateTime.currentDateTime()
         system_timezone_key = current_datetime.timeZoneAbbreviation()
         system_timezone_name = tzlocal.get_localzone_name()
         print(f'key: {system_timezone_key}, name: {system_timezone_name}')
+
+        # Add the system timezone to the preselected list if not already present
         self.preselected_timezone_list.setdefault(system_timezone_key,system_timezone_name)
         return system_timezone_key
 
     def set_timezone(self, timezone):
+        # Set the app timezone and update UI
         self.app_timezone = timezone
         print(self.app_timezone)
         self.menu_combo.setCurrentText(timezone)
@@ -86,9 +93,11 @@ class WorldTimeViewerApp(QMainWindow):
         self.update_time()
 
     def set_title_label(self):
+        # Update the title label with the app timezone
         self.title_label.setText(f'The present time in {self.app_timezone}')
 
     def update_time(self):
+        # Update the time label with the current time in the app timezone
         current_timezone = pytz.timezone(self.preselected_timezone_list[self.app_timezone])
         now_timezone = datetime.now(current_timezone)
         current_time_str = now_timezone.strftime("%Y-%m-%d %H:%M:%S")
