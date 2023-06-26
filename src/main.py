@@ -1,5 +1,6 @@
 import sys
 import pytz
+import tzlocal
 from datetime import datetime
 from PySide6.QtCore import Qt, QTimer, QDateTime
 from PySide6.QtWidgets import QApplication, QLabel, QMainWindow, QPushButton, QVBoxLayout, QWidget, QComboBox
@@ -36,11 +37,6 @@ class WorldTimeViewerApp(QMainWindow):
 
         # Create and set the menu
         self.menu_combo = QComboBox()
-        for timezone in self.preselected_timezone_list.keys():
-            self.menu_combo.addItem(timezone)
-        self.menu_combo.setCurrentIndex(0)
-        self.menu_combo.currentIndexChanged.connect(self.handle_menu_combo_change)
-
 
         # Create the colse button
         self.button = QPushButton("Close", self)
@@ -54,6 +50,7 @@ class WorldTimeViewerApp(QMainWindow):
 
         # initial scecence
         self.set_timezone(self.get_system_timezone())
+        self.set_preselected_list()
         self.set_title_label()
         self.update_time()
 
@@ -65,10 +62,21 @@ class WorldTimeViewerApp(QMainWindow):
     def handle_menu_combo_change(self, index):
         self.set_timezone(self.menu_combo.currentText())
 
+    def set_preselected_list(self):
+        for timezone in self.preselected_timezone_list.keys():
+            self.menu_combo.addItem(timezone)
+        current_datetime = QDateTime.currentDateTime()
+        system_timezone_key = current_datetime.timeZoneAbbreviation()
+        self.menu_combo.setCurrentText(system_timezone_key)
+        self.menu_combo.currentIndexChanged.connect(self.handle_menu_combo_change)
+
     def get_system_timezone(self):
         current_datetime = QDateTime.currentDateTime()
-        system_timezone = current_datetime.timeZoneAbbreviation()
-        return system_timezone
+        system_timezone_key = current_datetime.timeZoneAbbreviation()
+        system_timezone_name = tzlocal.get_localzone_name()
+        print(f'key: {system_timezone_key}, name: {system_timezone_name}')
+        self.preselected_timezone_list.setdefault(system_timezone_key,system_timezone_name)
+        return system_timezone_key
 
     def set_timezone(self, timezone):
         self.app_timezone = timezone
