@@ -6,6 +6,15 @@ from PySide6.QtCore import Qt, QTimer, QDateTime
 from PySide6.QtWidgets import QApplication, QLabel, QMainWindow, QPushButton, QVBoxLayout, QWidget, QComboBox
 
 class WorldTimeViewerApp(QMainWindow):
+    """"
+    A GUI application to view and display the current time in different timezones.
+
+    Attributes:
+        app_timezone (str): The currently selected timezone.
+        preselected_timezone_list (dict): A dictionary containing preselected timezones
+            and their corresponding timezone names.
+    """
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle("World Time Viewer")
