@@ -60,15 +60,15 @@ def user_runs_app(window):
     assert window is not None
 
 @then("the timezone of app set to the system timezone")
-def app_timezone_set_to_system_timezone(window, system_timezone):
+def selected_timezone_set_to_system_timezone(window, system_timezone):
     # Code to check if the app timezone is set to the system timezone
-    print(f"app:{window.app_timezone}, sys:{system_timezone}, menu:{window.menu_combo.currentText()}")
-    assert window.app_timezone == system_timezone
+    print(f"app:{window.selected_timezone}, sys:{system_timezone}, menu:{window.menu_combo.currentText()}")
+    assert window.selected_timezone == system_timezone
 
 @then('the menu of timezone should be update and display system timezone')
 def timezone_menu_visible_and_display_in_system(window, system_timezone):
     # Code to check if the timezone menu is visible and displays the expected timezoneav
-    print(f"app:{window.app_timezone}, sys:{system_timezone}, menu:{window.menu_combo.currentText()}")
+    print(f"app:{window.selected_timezone}, sys:{system_timezone}, menu:{window.menu_combo.currentText()}")
     assert window.menu_combo.currentText() == system_timezone
 
 @then('title label should be update and display The present time in system timezone')
@@ -104,18 +104,18 @@ def user_selects_timezone(window, timezone, qtbot):
             break
 
     window.menu_combo.setCurrentText(timezone)
-    print(f"c app:{window.app_timezone}, pre:{timezone}")
+    print(f"c app:{window.selected_timezone}, pre:{timezone}")
 
 @then(parsers.parse('the app timezone set to the user-selected timezone {timezone:s}', extra_types=EXTRA_TYPES))
-def app_timezone_set_to_user_selected_timezone(window, timezone):
+def selected_timezone_set_to_user_selected_timezone(window, timezone):
     # Code to check if the app timezone is set to the user-selected timezone
-    print(f"s app:{window.app_timezone}, pre:{timezone}")
-    # assert window.app_timezone == preselected_timezone
+    print(f"s app:{window.selected_timezone}, pre:{timezone}")
+    # assert window.selected_timezone == preselected_timezone
 
 @then(parsers.parse('the timezone menu should be update and display {timezone:s}', extra_types=EXTRA_TYPES))
 def timezone_menu_visible_and_display_in_current(window, timezone):
     # Code to check if the timezone menu is visible and displays the expected timezoneav
-    print(f"s app:{window.app_timezone}, pre:{timezone}, menu:{window.menu_combo.currentText()}")
+    print(f"s app:{window.selected_timezone}, pre:{timezone}, menu:{window.menu_combo.currentText()}")
     assert window.menu_combo.currentText() == timezone
 
 @then(parsers.parse('the title label should be update and display The present time in {timezone:s}', extra_types=EXTRA_TYPES))
