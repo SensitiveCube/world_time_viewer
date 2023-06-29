@@ -1,0 +1,15 @@
+{
+    "JST": "Asia/Tokyo",
+    "GMT": "Europe/London",
+    "EST": "America/New_York",
+    "CST": "Asia/Shanghai",
+    "MST": "America/Denver",
+    "PST": "America/Los_Angeles",
+    "IST": "Asia/Kolkata",
+    "CET": "Europe/Paris",
+    "AEST": "Australia/Sydney",
+    "MSK": "Europe/Moscow",
+    "AST": "Asia/Riyadh",
+    "BRT": "America/Sao_Paulo",
+    "SAST": "Africa/Johannesburg"
+}
