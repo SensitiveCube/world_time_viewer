@@ -1,0 +1,10 @@
+{
+  "JST": "Asia/Tokyo",
+  "GMT": "Europe/London",
+  "EST": "America/New_York",
+  "CST": "America/Chicago",
+  "MST": "America/Denver",
+  "PST": "America/Los_Angeles",
+  "IST": "Asia/Kolkata",
+  "CET": "Europe/Paris"
+}
