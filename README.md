@@ -5,6 +5,7 @@ This is a small project designed for my practicing Behavior-Driven Development (
 This app made with Python 3.10.12.
 Execute the following command:
 ```
+cd path/to/your/directory/world_time_viewer
 python src/main.py
 ```
 

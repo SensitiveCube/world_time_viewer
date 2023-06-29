@@ -1,6 +1,7 @@
 import sys
 import pytz
 import tzlocal
+import json
 from datetime import datetime
 from PySide6.QtCore import Qt, QTimer, QDateTime
 from PySide6.QtWidgets import QApplication, QLabel, QMainWindow, QPushButton, QVBoxLayout, QWidget, QComboBox
@@ -20,17 +21,11 @@ class WorldTimeViewerApp(QMainWindow):
         self.setWindowTitle("World Time Viewer")
 
         self.selected_timezone = ""
-        self.preselected_timezone_list = {
-            "JST": "Asia/Tokyo",
-            "GMT": "Europe/London",
-            "EST": "America/New_York",
-            "CST": "America/Chicago",
-            "MST": "America/Denver",
-            "PST": "America/Los_Angeles",
-            "IST": "Asia/Kolkata",
-            "CET": "Europe/Paris"
-        }
+        self.preselected_timezone_list = ""
 
+        # Load preselected timezon from a JSON file
+        with open('src/preselected_timezones.json', 'r') as f:
+            self.preselected_timezone_list = json.load(f)
 
         # initial sequence
         self.create_widgets()
