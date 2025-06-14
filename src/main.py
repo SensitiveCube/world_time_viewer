@@ -21,9 +21,10 @@ class WorldTimeViewerApp(QMainWindow):
         self.setWindowTitle("World Time Viewer")
 
         self.selected_timezone = ""
+        self.selected_location = ""
         self.preselected_timezone_list = ""
 
-        # Load preselected timezon from a JSON file
+        # Load preselected timezone from a JSON file
         with open('src/preselected_timezones.json', 'r') as f:
             self.preselected_timezone_list = json.load(f)
 
@@ -96,6 +97,7 @@ class WorldTimeViewerApp(QMainWindow):
     def set_timezone(self, timezone):
         # Set the app timezone and update UI
         self.selected_timezone = timezone
+        self.selected_location = self.preselected_timezone_list.get(self.selected_timezone)
         print(self.selected_timezone)
         self.menu_combo.setCurrentText(timezone)
         self.set_title_label()
@@ -103,7 +105,7 @@ class WorldTimeViewerApp(QMainWindow):
 
     def set_title_label(self):
         # Update the title label with the app timezone
-        self.title_label.setText(f'The present time in {self.selected_timezone}')
+        self.title_label.setText(f'The present time in {self.selected_location}')
 
     def update_time(self):
         # Update the time label with the current time in the app timezone

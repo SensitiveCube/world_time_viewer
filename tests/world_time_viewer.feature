@@ -10,16 +10,16 @@ Feature: world time Viewer App
     Scenario Outline: Update Time when Selecting Timezone
         Given the App is launched
         When user selects a <timezone> from the timezone menu
-        Then the app timezone set to the user-selected timezone <timezone>
+        Then the app timezone set to the user-selected timezone <timezome>
         And the timezone menu should be update and display <timezone>
-        And the title label should be update and display The present time in <timezone>
+        And the title label should be update and display The <location> of <timezone>
         And the time label should be update and display the current time in <timezone>
 
         Examples:
-            | timezone |
-            | JST      |
-            | GMT      |
-            | PST      |
+            | timezone | location            |
+            | JST      | Asia/Tokyo          |
+            | GMT      | Europe/London       |
+            | PST      | America/Los_Angeles |
 
     Scenario: Continuously Update Time
         Given the App is launched
